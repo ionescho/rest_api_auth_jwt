@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2020 at 03:59 PM
+-- Generation Time: Feb 09, 2020 at 07:06 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -79,7 +79,7 @@ CREATE TABLE `employee_hierarchy` (
 --
 
 INSERT INTO `employee_hierarchy` (`single_row`, `hierarchy`) VALUES
-(1, '{&quot;Jonas&quot;:{&quot;Sophie&quot;:{&quot;Cristi&quot;:{&quot;Mihai&quot;:{}},&quot;Nick&quot;:{&quot;Costel&quot;:{},&quot;Pete&quot;:{},&quot;Barbara&quot;:{},&quot;Vasile&quot;:{}}}}}');
+(1, '{}');
 
 -- --------------------------------------------------------
 

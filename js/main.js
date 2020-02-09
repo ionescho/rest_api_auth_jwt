@@ -1,4 +1,5 @@
 import JSONViewer from "./json-viewer.js";
+import compose_tree from "./compose_tree.js"
 
 // jQuery codes
 $(document).ready(function(){
@@ -175,40 +176,6 @@ $(document).ready(function(){
 
         return false;
     });
-
-    let compose_tree = (employees) => {
-        let [rootRef, passedNodes] = [{},{}];
-        for(var child in employees) {
-            traverse_upwards(child, {});
-        }
-        return rootRef;
-
-
-        function traverse_upwards(employee, pN, circularReferenceCheck = {}) {
-            let supervisor = employees[employee];
-            if (circularReferenceCheck[supervisor]) {
-                throw new Error("Circular reference")
-            }
-            circularReferenceCheck[employee] = true;
-            if (!passedNodes[employee]) {
-                passedNodes[employee] = {
-                    [employee]: pN
-                };
-            }
-
-            if (employees[supervisor]) {
-                if (!passedNodes[supervisor]) {
-                    traverse_upwards(supervisor, passedNodes[employee], circularReferenceCheck);
-                }
-                passedNodes[supervisor][supervisor][employee] = passedNodes[employee][employee];
-            } else {
-                //this is the root of the tree
-                rootRef = {
-                    [supervisor]: passedNodes[employee]
-                };
-            }
-        }
-    }
 
     let make_hierarchy_pretty_html = (tree) => {
         var employee_results_html = `
@@ -426,7 +393,7 @@ $(document).ready(function(){
                     <h2>Employee Form</h2>
                     <form id='employees_form'>
                         <div class="form-group">
-                            <label for="employee_json">Insert the employee-supervisor relationship JSON in the following textarea </label>
+                            <label for="employee_json">Insert the employee-supervisor relationship JSON in the following textarea(please put keys in quotes for it to be a valid JSON) </label>
                             <textarea class="form-control" name="employee_json" id="employee_json" required value="" rows="10" />
                         </div>
 

@@ -50,7 +50,7 @@ if($jwt){
             http_response_code(401);
 
             // show error message
-            echo json_encode(array("message" => "Unable to save hierarchy."));
+            echo json_encode(array("message" => "Unable to get employees."));
         }
     }
 
