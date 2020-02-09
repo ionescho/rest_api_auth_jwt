@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2018 at 04:39 AM
--- Server version: 10.1.34-MariaDB
--- PHP Version: 7.2.7
+-- Generation Time: Feb 09, 2020 at 03:59 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -33,7 +33,7 @@ CREATE TABLE `categories` (
   `name` varchar(256) NOT NULL,
   `description` text NOT NULL,
   `created` datetime NOT NULL,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -52,6 +52,38 @@ INSERT INTO `categories` (`id`, `name`, `description`, `created`, `modified`) VA
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `employees`
+--
+
+CREATE TABLE `employees` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `supervisor_id` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_hierarchy`
+--
+
+CREATE TABLE `employee_hierarchy` (
+  `single_row` tinyint(1) NOT NULL,
+  `hierarchy` varchar(10000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `employee_hierarchy`
+--
+
+INSERT INTO `employee_hierarchy` (`single_row`, `hierarchy`) VALUES
+(1, '{&quot;Jonas&quot;:{&quot;Sophie&quot;:{&quot;Cristi&quot;:{&quot;Mihai&quot;:{}},&quot;Nick&quot;:{&quot;Costel&quot;:{},&quot;Pete&quot;:{},&quot;Barbara&quot;:{},&quot;Vasile&quot;:{}}}}}');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
@@ -62,7 +94,7 @@ CREATE TABLE `products` (
   `price` decimal(10,0) NOT NULL,
   `category_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -100,8 +132,8 @@ CREATE TABLE `users` (
   `lastname` varchar(256) NOT NULL,
   `email` varchar(256) NOT NULL,
   `password` varchar(2048) NOT NULL,
-  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
+  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -109,8 +141,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `password`, `created`, `modified`) VALUES
-(9, 'Mike', 'Dalisay', 'mike@codeofaninja.com', '$2y$10$doVhhP9C0H3i4UWg4HiL1.polW2.Nq01zQyxgKnKtjr0ZPL.Ycer2', '2018-09-17 08:16:41', '2018-09-30 02:10:26'),
-(12, 'Jerome', 'De Leon', 'jerome@gmail.com', '$2y$10$kYP6OZLSsjseQ6IGw.FRCuTkq..Zfc/zXAUwGV4SXhtg8aE6GFiQ.', '2018-09-18 09:52:14', '2018-09-18 01:52:14');
+(13, 'Horia', 'Ionescu', 'ionescho@gmail.com', '$2y$10$r8npAPSK6/3jbd9y9gaWbuP6G3gkDoa.KIuabZmKX4Fi10qc.aQeu', '2020-02-08 22:11:24', '2020-02-08 20:11:24');
 
 --
 -- Indexes for dumped tables
@@ -121,6 +152,19 @@ INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `password`, `create
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `employees`
+--
+ALTER TABLE `employees`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `supervisor_id` (`supervisor_id`);
+
+--
+-- Indexes for table `employee_hierarchy`
+--
+ALTER TABLE `employee_hierarchy`
+  ADD UNIQUE KEY `single_row` (`single_row`);
 
 --
 -- Indexes for table `products`
@@ -145,6 +189,12 @@ ALTER TABLE `categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
+-- AUTO_INCREMENT for table `employees`
+--
+ALTER TABLE `employees`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
@@ -154,7 +204,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
