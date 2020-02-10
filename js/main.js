@@ -415,7 +415,7 @@ $(document).ready(function(){
         })
         .fail(function(result){
             showLoginPage();
-            $('#response').html("<div class='alert alert-danger'>Please login to access the account page.</div>");
+            $('#response').html("<div class='alert alert-danger'>Please login to access the employee page.</div>");
         });
     }
 
