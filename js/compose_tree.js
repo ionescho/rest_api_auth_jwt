@@ -1,5 +1,5 @@
 let compose_tree = (employees) => {
-    let [rootRef, passedNodes] = [{},{}];
+    let [rootRef, passedNodes, multipleRootsErrorCheck] = [{},{},[]];
     for(var child in employees) {
         traverse_upwards(child, {});
     }
@@ -9,7 +9,7 @@ let compose_tree = (employees) => {
     function traverse_upwards(employee, pN, circularReferenceCheck = {}) {
         let supervisor = employees[employee];
         if (circularReferenceCheck[supervisor]) {
-            throw new Error("Circular reference")
+            throw new Error("Circular reference!")
         }
         circularReferenceCheck[employee] = true;
         if (!passedNodes[employee]) {
@@ -25,6 +25,12 @@ let compose_tree = (employees) => {
             passedNodes[supervisor][supervisor][employee] = passedNodes[employee][employee];
         } else {
             //this is the root of the tree
+            if(multipleRootsErrorCheck.indexOf(supervisor) === -1) {
+                multipleRootsErrorCheck.push(supervisor);
+                if(multipleRootsErrorCheck.length > 1) {
+                    throw new Error("Multiple roots detected in tree!")
+                }
+            }
             rootRef = {
                 [supervisor]: passedNodes[employee]
             };

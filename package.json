@@ -4,7 +4,7 @@
   "description": "",
   "main": "js/json-viewer.js",
   "scripts": {
-    "test": "mocha"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/ionescho/rest_api_auth_jwt#readme",
   "devDependencies": {
-    "mocha": "^7.0.1"
+    "@babel/plugin-transform-modules-commonjs": "^7.8.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jest": "^25.1.0"
+  }
 }
